@@ -93,6 +93,38 @@ document.addEventListener("DOMContentLoaded", () => {
   updateCountdown();
   const countdownInterval = setInterval(updateCountdown, 1000);
 
+  /* ---------- Intro text typing ---------- */
+  const introText = document.querySelector(".intro-text");
+  const typeText = (element, fullText, speed = 20) => {
+    element.classList.add("typing");
+    element.innerHTML = "";
+    let index = 0;
+    const typeChar = () => {
+      if (index >= fullText.length) {
+        element.classList.remove("typing");
+        return;
+      }
+      if (fullText[index] === "<") {
+        const tagEnd = fullText.indexOf(">", index);
+        element.innerHTML += fullText.slice(index, tagEnd + 1);
+        index = tagEnd + 1;
+        typeChar();
+      } else {
+        element.innerHTML += fullText[index];
+        index += 1;
+        setTimeout(typeChar, speed);
+      }
+    };
+    typeChar();
+  };
+
+  if (introText) {
+    const text = introText.dataset.fulltext?.trim();
+    if (text) {
+      typeText(introText, text, 20);
+    }
+  }
+
   /* ---------- Animated stat counters ---------- */
   const statNumbers = document.querySelectorAll(".stat-number[data-count]");
   const animateCount = (el) => {

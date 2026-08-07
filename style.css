@@ -378,6 +378,20 @@ section { padding: 5rem 5vw; }
   text-align: center;
   font-size: 1.15rem;
   color: #d7d7db;
+  min-height: 6.5rem;
+  position: relative;
+}
+.intro-text.typing::after {
+  content: "|";
+  position: absolute;
+  right: -12px;
+  bottom: 0.15rem;
+  color: var(--orange);
+  animation: blinkCursor 0.8s steps(1) infinite;
+}
+@keyframes blinkCursor {
+  0%, 50% { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
 }
 .mission-card {
   max-width: 720px;
