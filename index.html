@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Phoenix Racers - Grade 7 Formula 1 in Schools team. Future Engineers. Future Champions." />
+  <title>Phoenix Racers | Formula 1 in Schools</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="chatbot.css" />
+</head>
+<body>
+  <!-- Animated background speed streaks -->
+  <div class="speed-streaks" aria-hidden="true"></div>
+  <div class="particles" id="particles" aria-hidden="true"></div>
+
+  <!-- ===================== NAVIGATION ===================== -->
+  <header>
+    <nav class="navbar" aria-label="Main navigation">
+      <a href="#home" class="brand" aria-label="Phoenix Racers home">
+        <span class="brand-icon" aria-hidden="true">🔥</span>
+        <span class="brand-text">PHOENIX<span class="brand-accent">RACERS</span></span>
+      </a>
+
+      <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="#home" class="nav-link">Home</a></li>
+        <li><a href="#car-design" class="nav-link">Car Design</a></li>
+        <li><a href="#team" class="nav-link">Team</a></li>
+        <li><a href="#sponsors" class="nav-link">Sponsors</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ===================== HERO ===================== -->
+    <section id="home" class="hero" aria-label="Welcome">
+      <div class="track-lines" aria-hidden="true"></div>
+
+      <!-- Racing car animation -->
+      <div class="car-track" aria-hidden="true">
+        <div class="race-car">
+          <div class="speed-trail"></div>
+          <svg viewBox="0 0 260 90" class="car-svg" role="img" aria-label="Formula 1 race car">
+            <!-- Rear wing -->
+            <rect x="6" y="20" width="14" height="30" rx="2" fill="#111"/>
+            <rect x="2" y="18" width="24" height="6" rx="2" fill="#ff5e13"/>
+            <!-- Body -->
+            <path d="M20 55 L60 55 L90 42 L150 40 L200 46 L230 52 L248 56 L248 62 L20 62 Z" fill="#e01e2b"/>
+            <path d="M60 55 L90 42 L150 40 L200 46 L200 52 L90 52 Z" fill="#ff5e13"/>
+            <!-- Cockpit -->
+            <path d="M120 40 L140 30 L165 32 L170 40 Z" fill="#0d0d0d"/>
+            <circle cx="150" cy="35" r="4" fill="#c0c0c0"/>
+            <!-- Front wing -->
+            <rect x="238" y="52" width="20" height="6" rx="2" fill="#111"/>
+            <rect x="236" y="58" width="24" height="5" rx="2" fill="#ff5e13"/>
+            <!-- Halo -->
+            <path d="M118 42 Q145 20 172 40" stroke="#c0c0c0" stroke-width="3" fill="none"/>
+            <!-- Wheels -->
+            <circle cx="78" cy="64" r="18" fill="#0a0a0a" stroke="#333" stroke-width="3"/>
+            <circle cx="78" cy="64" r="7" fill="#555"/>
+            <circle cx="200" cy="64" r="18" fill="#0a0a0a" stroke="#333" stroke-width="3"/>
+            <circle cx="200" cy="64" r="7" fill="#555"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="hero-content">
+        <p class="hero-tag">Formula 1 in Schools · Grade 7</p>
+        <h1 class="hero-title">Welcome to <span class="glow">Phoenix Racers</span></h1>
+        <p class="hero-subtitle">Future Engineers. Future Champions.</p>
+        <div class="hero-buttons">
+          <a href="#car-design" class="btn btn-primary">Explore Our Car</a>
+          <a href="#team" class="btn btn-ghost">Meet the Team</a>
+        </div>
+      </div>
+
+      <div class="checkered-strip" aria-hidden="true"></div>
+    </section>
+
+    <!-- ===================== INTRO + MISSION ===================== -->
+    <section class="intro reveal" aria-label="About Phoenix Racers">
+      <div class="section-inner">
+        <h2 class="section-title">Igniting the <span class="text-accent">Racing Spirit</span></h2>
+        <p class="intro-text">
+          Phoenix Racers is a passionate Grade 7 team competing in the
+          <strong>Formula 1 in Schools</strong> challenge. We design, engineer, and
+          race miniature CO₂-powered F1 cars, blending creativity, science, and
+          teamwork to push the limits of speed and innovation.
+        </p>
+        <div class="mission-card">
+          <h3>Our Mission</h3>
+          <p>
+            To inspire the next generation of engineers by designing the fastest,
+            smartest, and most aerodynamic car on the track — while learning,
+            collaborating, and racing toward excellence.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== STATISTICS ===================== -->
+    <section class="stats reveal" aria-label="Team statistics">
+      <div class="section-inner">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-icon" aria-hidden="true">👥</span>
+            <span class="stat-number" data-count="6">0</span>
+            <span class="stat-label">Team Members</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-icon" aria-hidden="true">🎓</span>
+            <span class="stat-number" data-count="7">0</span>
+            <span class="stat-label">School Grade</span>
+          </div>
+          <div class="stat-card stat-wide">
+            <span class="stat-icon" aria-hidden="true">🏁</span>
+            <span class="stat-text">Formula 1<br />in Schools</span>
+            <span class="stat-label">Competition</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== COUNTDOWN ===================== -->
+    <section class="countdown reveal" aria-label="Countdown to race day">
+      <div class="section-inner">
+        <h2 class="section-title">Race Day <span class="text-accent">Countdown</span></h2>
+        <p class="countdown-target">31 October 2026 · 9:00 AM</p>
+        <div class="countdown-timer" id="countdown" role="timer" aria-live="polite">
+          <div class="time-block"><span id="days" class="time-value">00</span><span class="time-label">Days</span></div>
+          <div class="time-block"><span id="hours" class="time-value">00</span><span class="time-label">Hours</span></div>
+          <div class="time-block"><span id="minutes" class="time-value">00</span><span class="time-label">Minutes</span></div>
+          <div class="time-block"><span id="seconds" class="time-value">00</span><span class="time-label">Seconds</span></div>
+        </div>
+        <p class="countdown-done" id="countdown-done" hidden>🏆 It's Race Day! Go Phoenix Racers!</p>
+      </div>
+    </section>
+
+    <!-- ===================== CAR DESIGN ===================== -->
+    <section id="car-design" class="car-design reveal" aria-label="Car design gallery">
+      <div class="section-inner">
+        <h2 class="section-title">Our <span class="text-accent">Car Design</span></h2>
+        <p class="section-sub">Precision-engineered for speed and aerodynamic perfection.</p>
+
+        <div class="carousel" aria-roledescription="carousel">
+          <div class="carousel-track" id="carousel-track">
+            <!-- Slides -->
+            <figure class="slide">
+              <div class="slide-img" style="--c1:#ff5e13;--c2:#111">Front View</div>
+              <figcaption>Front View</figcaption>
+            </figure>
+            <figure class="slide">
+              <div class="slide-img" style="--c1:#e01e2b;--c2:#111">Side View</div>
+              <figcaption>Side View</figcaption>
+            </figure>
+            <figure class="slide">
+              <div class="slide-img" style="--c1:#c0c0c0;--c2:#222">Top View</div>
+              <figcaption>Top View</figcaption>
+            </figure>
+            <figure class="slide">
+              <div class="slide-img" style="--c1:#ff8c42;--c2:#111">Aerodynamic Features</div>
+              <figcaption>Aerodynamic Features</figcaption>
+            </figure>
+            <figure class="slide">
+              <div class="slide-img" style="--c1:#ffb400;--c2:#111">Prototype Model</div>
+              <figcaption>Prototype Model</figcaption>
+            </figure>
+          </div>
+
+          <button class="carousel-btn prev" id="prev-btn" aria-label="Previous image">&#10094;</button>
+          <button class="carousel-btn next" id="next-btn" aria-label="Next image">&#10095;</button>
+
+          <div class="carousel-dots" id="carousel-dots" role="tablist" aria-label="Choose slide"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== TEAM ===================== -->
+    <section id="team" class="team reveal" aria-label="Meet the team">
+      <div class="section-inner">
+        <h2 class="section-title">Meet the <span class="text-accent">Team</span></h2>
+        <p class="section-sub">Six minds. One mission. Full throttle.</p>
+
+        <div class="team-grid">
+          <!-- Card -->
+          <article class="team-card" tabindex="0">
+            <div class="card-inner">
+              <div class="card-front">
+                <div class="avatar" data-initial="A" aria-hidden="true"></div>
+                <h3>Aarav</h3>
+                <p class="role">Team Manager</p>
+              </div>
+              <div class="card-back">
+                <p>Coordinates activities and keeps the team organized.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="team-card" tabindex="0">
+            <div class="card-inner">
+              <div class="card-front">
+                <div class="avatar" data-initial="V" aria-hidden="true"></div>
+                <h3>Vivaan</h3>
+                <p class="role">Design Engineer</p>
+              </div>
+              <div class="card-back">
+                <p>Creates innovative and aerodynamic car concepts.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="team-card" tabindex="0">
+            <div class="card-inner">
+              <div class="card-front">
+                <div class="avatar" data-initial="A" aria-hidden="true"></div>
+                <h3>Arjun</h3>
+                <p class="role">Manufacturing Engineer</p>
+              </div>
+              <div class="card-back">
+                <p>Supports construction and testing of the car.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="team-card" tabindex="0">
+            <div class="card-inner">
+              <div class="card-front">
+                <div class="avatar" data-initial="A" aria-hidden="true"></div>
+                <h3>Advik</h3>
+                <p class="role">Graphics Designer</p>
+              </div>
+              <div class="card-back">
+                <p>Develops team branding and presentations.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="team-card" tabindex="0">
+            <div class="card-inner">
+              <div class="card-front">
+                <div class="avatar" data-initial="R" aria-hidden="true"></div>
+                <h3>Reyansh</h3>
+                <p class="role">Sponsorship Manager</p>
+              </div>
+              <div class="card-back">
+                <p>Builds partnerships and sponsor relationships.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="team-card" tabindex="0">
+            <div class="card-inner">
+              <div class="card-front">
+                <div class="avatar" data-initial="K" aria-hidden="true"></div>
+                <h3>Kabir</h3>
+                <p class="role">Marketing Manager</p>
+              </div>
+              <div class="card-back">
+                <p>Promotes the team and manages communications.</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SPONSORS ===================== -->
+    <section id="sponsors" class="sponsors reveal" aria-label="Our sponsors">
+      <div class="section-inner">
+        <h2 class="section-title">Our <span class="text-accent">Sponsors</span></h2>
+        <p class="sponsor-message">
+          Partner with Phoenix Racers and support the next generation of
+          innovators, engineers, and leaders.
+        </p>
+
+        <div class="sponsor-tier gold">
+          <h3 class="tier-title">🥇 Gold Sponsors</h3>
+          <div class="sponsor-logos">
+            <div class="sponsor-logo">Your Logo</div>
+            <div class="sponsor-logo">Your Logo</div>
+          </div>
+        </div>
+
+        <div class="sponsor-tier silver">
+          <h3 class="tier-title">🥈 Silver Sponsors</h3>
+          <div class="sponsor-logos">
+            <div class="sponsor-logo">Your Logo</div>
+            <div class="sponsor-logo">Your Logo</div>
+            <div class="sponsor-logo">Your Logo</div>
+          </div>
+        </div>
+
+        <div class="sponsor-tier bronze">
+          <h3 class="tier-title">🥉 Bronze Sponsors</h3>
+          <div class="sponsor-logos">
+            <div class="sponsor-logo">Your Logo</div>
+            <div class="sponsor-logo">Your Logo</div>
+            <div class="sponsor-logo">Your Logo</div>
+            <div class="sponsor-logo">Your Logo</div>
+          </div>
+        </div>
+
+        <div class="sponsor-contact">
+          <a href="mailto:phoenixracers@example.com" class="btn btn-primary">Become a Sponsor</a>
+          <p class="contact-email">📧 phoenixracers@example.com</p>
+          <div class="social-icons" aria-label="Social media links">
+            <a href="#" class="social" aria-label="Instagram">📷</a>
+            <a href="#" class="social" aria-label="X (Twitter)">✖️</a>
+            <a href="#" class="social" aria-label="YouTube">▶️</a>
+            <a href="#" class="social" aria-label="LinkedIn">💼</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CONTACT ===================== -->
+    <section id="contact" class="contact reveal" aria-label="Contact us">
+      <div class="section-inner">
+        <h2 class="section-title">Get in <span class="text-accent">Touch</span></h2>
+        <p class="section-sub">Questions, sponsorship, or press? Send us a message.</p>
+
+        <div class="contact-grid">
+          <!-- Contact Form -->
+          <div class="contact-form-wrap">
+            <!-- Replace YOUR_FORM_ID with your real Formspree form ID -->
+            <form
+              id="contact-form"
+              class="contact-form"
+              action="https://formspree.io/f/YOUR_FORM_ID"
+              method="POST"
+              novalidate
+            >
+              <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required autocomplete="name"
+                  aria-required="true" aria-describedby="name-error" />
+                <span class="field-error" id="name-error" role="alert"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required autocomplete="email"
+                  aria-required="true" aria-describedby="email-error" />
+                <span class="field-error" id="email-error" role="alert"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="organization">School / Organization</label>
+                <input type="text" id="organization" name="organization" required
+                  autocomplete="organization" aria-required="true" aria-describedby="organization-error" />
+                <span class="field-error" id="organization-error" role="alert"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="subject">Subject</label>
+                <input type="text" id="subject" name="subject" required
+                  aria-required="true" aria-describedby="subject-error" />
+                <span class="field-error" id="subject-error" role="alert"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="5" required
+                  aria-required="true" aria-describedby="message-error"></textarea>
+                <span class="field-error" id="message-error" role="alert"></span>
+              </div>
+
+              <button type="submit" class="btn btn-primary form-submit" id="submit-btn">
+                <span class="btn-label">Send Message</span>
+                <span class="btn-spinner" aria-hidden="true"></span>
+              </button>
+
+              <p class="form-status form-status-error" id="form-error" role="alert" hidden>
+                ⚠️ Something went wrong. Please try again or email us directly.
+              </p>
+            </form>
+
+            <!-- Animated success confirmation -->
+            <div class="form-success" id="form-success" hidden>
+              <svg class="success-check" viewBox="0 0 52 52" aria-hidden="true">
+                <circle class="check-circle" cx="26" cy="26" r="24" fill="none" />
+                <path class="check-mark" fill="none" d="M14 27l8 8 16-16" />
+              </svg>
+              <h3>Message Sent!</h3>
+              <p>Thanks for reaching out. The Phoenix Racers team will get back to you soon.</p>
+              <button type="button" class="btn btn-ghost" id="send-another">Send Another</button>
+            </div>
+          </div>
+
+          <!-- Contact Info + Social -->
+          <aside class="contact-info">
+            <div class="info-card">
+              <h3>Team Contact</h3>
+              <ul class="info-list">
+                <li><span class="info-icon" aria-hidden="true">🏎️</span><div><strong>Team Name</strong><br />Phoenix Racers</div></li>
+                <li><span class="info-icon" aria-hidden="true">🏁</span><div><strong>Competition</strong><br />Formula 1 in Schools</div></li>
+                <li><span class="info-icon" aria-hidden="true">🏫</span><div><strong>School</strong><br />Your School Name</div></li>
+                <li><span class="info-icon" aria-hidden="true">📧</span><div><strong>Email</strong><br /><a href="mailto:contact@phoenixracers.com">contact@phoenixracers.com</a></div></li>
+                <li><span class="info-icon" aria-hidden="true">📍</span><div><strong>Location</strong><br />Your City, Country</div></li>
+              </ul>
+            </div>
+
+            <div class="info-card">
+              <h3>Follow Us</h3>
+              <div class="social-icons" aria-label="Social media links">
+                <a href="#" class="social" aria-label="Instagram">📷</a>
+                <a href="#" class="social" aria-label="YouTube">▶️</a>
+                <a href="#" class="social" aria-label="Facebook">📘</a>
+                <a href="#" class="social" aria-label="LinkedIn">💼</a>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-icon" aria-hidden="true">🔥</span>
+        <span class="brand-text">PHOENIX<span class="brand-accent">RACERS</span></span>
+        <p class="footer-tagline">Built with passion for Formula 1 in Schools</p>
+      </div>
+
+      <nav class="footer-links" aria-label="Quick links">
+        <h4>Quick Links</h4>
+        <a href="#home">Home</a>
+        <a href="#car-design">Car Design</a>
+        <a href="#team">Team</a>
+        <a href="#sponsors">Sponsors</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="footer-social">
+        <h4>Follow Us</h4>
+        <div class="social-icons">
+          <a href="#" class="social" aria-label="Instagram">📷</a>
+          <a href="#" class="social" aria-label="X (Twitter)">✖️</a>
+          <a href="#" class="social" aria-label="YouTube">▶️</a>
+          <a href="#" class="social" aria-label="LinkedIn">💼</a>
+        </div>
+      </div>
+
+      <div class="footer-contact">
+        <h4>Contact</h4>
+        <p><a href="mailto:contact@phoenixracers.com">contact@phoenixracers.com</a></p>
+        <p><a href="#" aria-label="Instagram @phoenixracers">📷 @phoenixracers</a></p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; <span id="year"></span> Phoenix Racers. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- ===================== LIGHTBOX ===================== -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged image" hidden>
+    <button class="lightbox-close" id="lightbox-close" aria-label="Close enlarged image">&times;</button>
+    <div class="lightbox-content" id="lightbox-content"></div>
+  </div>
+
+  <!-- Scroll to top -->
+  <button class="scroll-top" id="scroll-top" aria-label="Scroll to top">▲</button>
+
+  <script src="script.js"></script>
+  <script src="chatbot.js"></script>
+</body>
+</html>

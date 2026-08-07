@@ -1,0 +1,56 @@
+<!--
+  =====================================================
+  PHOENIX RACERS - AI-style Chatbot (component markup)
+  chatbot.html
+  =====================================================
+  Reference markup for the chatbot widget.
+
+  NOTE: chatbot.js automatically injects this markup into
+  the page at runtime, so you normally only need to include
+  chatbot.css and chatbot.js on your page:
+
+      <link rel="stylesheet" href="chatbot.css" />
+      <script src="chatbot.js"></script>
+
+  This file is provided so the structure can be reviewed or
+  reused independently. It runs entirely in the browser with
+  no backend required.
+-->
+
+<div class="pr-chatbot">
+  <!-- Floating toggle button (bottom-right) -->
+  <button class="pr-chat-toggle" id="pr-chat-toggle"
+          aria-label="Open Phoenix Racers chat assistant" aria-expanded="false">
+    <span class="pr-chat-toggle-icon" aria-hidden="true">💬</span>
+    <span class="pr-chat-toggle-close" aria-hidden="true">✕</span>
+  </button>
+
+  <!-- Chat window -->
+  <section class="pr-chat-window" id="pr-chat-window" role="dialog"
+           aria-label="Phoenix Racers chat assistant" aria-hidden="true">
+    <!-- Header with team logo -->
+    <header class="pr-chat-header">
+      <div class="pr-chat-logo">
+        <span class="pr-chat-logo-icon" aria-hidden="true">🔥</span>
+        <div>
+          <p class="pr-chat-title">PHOENIX<span>RACERS</span></p>
+          <p class="pr-chat-status"><span class="pr-dot"></span>Assistant online</p>
+        </div>
+      </div>
+      <button class="pr-chat-min" id="pr-chat-min" aria-label="Close chat">✕</button>
+    </header>
+
+    <!-- Conversation messages -->
+    <div class="pr-chat-messages" id="pr-chat-messages" aria-live="polite"></div>
+
+    <!-- Suggested question / quick reply buttons -->
+    <div class="pr-chat-suggestions" id="pr-chat-suggestions" aria-label="Suggested questions"></div>
+
+    <!-- Message input -->
+    <form class="pr-chat-input" id="pr-chat-form" autocomplete="off">
+      <label for="pr-chat-text" class="pr-visually-hidden">Type your message</label>
+      <input type="text" id="pr-chat-text" placeholder="Ask me anything..." aria-label="Type your message" />
+      <button type="submit" class="pr-chat-send" aria-label="Send message">➤</button>
+    </form>
+  </section>
+</div>
