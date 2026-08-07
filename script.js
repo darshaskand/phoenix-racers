@@ -186,6 +186,122 @@ document.addEventListener("DOMContentLoaded", () => {
   carousel.addEventListener("mouseenter", () => clearInterval(autoTimer));
   carousel.addEventListener("mouseleave", startAuto);
 
+  /* ---------- Auto page section scrolling ---------- */
+  const autoSections = Array.from(document.querySelectorAll("main section"));
+  const pageFooter = document.querySelector("footer");
+  if (pageFooter) autoSections.push(pageFooter);
+  const teamSection = document.getElementById("team");
+  const sponsorSection = document.getElementById("sponsors");
+  const countdownSection = document.getElementById("countdown");
+
+  const autoplayStatus = document.createElement("div");
+  autoplayStatus.id = "autoplay-status";
+  autoplayStatus.className = "autoplay-status";
+  autoplayStatus.textContent = "Auto-play paused";
+  document.body.appendChild(autoplayStatus);
+  let autoplayVisibleTimer;
+
+  const showAutoplayStatus = (message) => {
+    autoplayStatus.textContent = message;
+    autoplayStatus.classList.add("visible");
+    clearTimeout(autoplayVisibleTimer);
+    autoplayVisibleTimer = setTimeout(() => {
+      autoplayStatus.classList.remove("visible");
+    }, 3000);
+  };
+
+  let autoSectionIndex = 0;
+  let autoScrollTimer;
+  let inactivityTimer;
+  let teamPreviewTimeout;
+  let sponsorPreviewTimeout;
+  let nextSectionTimeout;
+  const inactivityDelay = 10000;
+
+  const clearAutoTimers = () => {
+    clearTimeout(autoScrollTimer);
+    clearTimeout(inactivityTimer);
+    clearTimeout(teamPreviewTimeout);
+    clearTimeout(sponsorPreviewTimeout);
+    clearTimeout(nextSectionTimeout);
+  };
+
+  const updateAutoSectionIndex = () => {
+    const scrollMiddle = window.scrollY + window.innerHeight / 2;
+    autoSections.forEach((el, idx) => {
+      const top = el.offsetTop;
+      const bottom = top + el.offsetHeight;
+      if (scrollMiddle >= top && scrollMiddle < bottom) {
+        autoSectionIndex = idx;
+      }
+    });
+  };
+
+  const scheduleNextSection = (delay = 10000) => {
+    clearTimeout(autoScrollTimer);
+    autoScrollTimer = setTimeout(autoScrollSection, delay);
+  };
+
+  const scrollToSection = (index) => {
+    clearTimeout(autoScrollTimer);
+    clearTimeout(teamPreviewTimeout);
+    clearTimeout(sponsorPreviewTimeout);
+    clearTimeout(nextSectionTimeout);
+
+    const target = autoSections[index];
+    if (!target) return;
+    autoSectionIndex = index;
+    target.scrollIntoView({ behavior: "smooth" });
+
+    if (target === teamSection) {
+      teamPreviewTimeout = setTimeout(() => {
+        const previewPosition = teamSection.offsetTop + Math.min(teamSection.clientHeight * 0.45, 260);
+        window.scrollTo({ top: previewPosition, behavior: "smooth" });
+        nextSectionTimeout = setTimeout(autoScrollSection, 5000);
+      }, 5000);
+    } else if (target === sponsorSection) {
+      sponsorPreviewTimeout = setTimeout(() => {
+        const previewPosition = sponsorSection.offsetTop + Math.min(sponsorSection.clientHeight * 0.35, 260);
+        window.scrollTo({ top: previewPosition, behavior: "smooth" });
+        nextSectionTimeout = setTimeout(autoScrollSection, 5000);
+      }, 5000);
+    } else if (target === countdownSection) {
+      scheduleNextSection(5000);
+    } else {
+      scheduleNextSection(10000);
+    }
+  };
+
+  const autoScrollSection = () => {
+    autoSectionIndex = (autoSectionIndex + 1) % autoSections.length;
+    scrollToSection(autoSectionIndex);
+  };
+
+  const startAutoScroll = () => {
+    clearTimeout(inactivityTimer);
+    showAutoplayStatus("Auto-play started");
+    autoScrollSection();
+  };
+
+  const resetInactivity = () => {
+    clearAutoTimers();
+    showAutoplayStatus("Auto-play paused");
+    inactivityTimer = setTimeout(startAutoScroll, inactivityDelay);
+  };
+
+  window.addEventListener("scroll", updateAutoSectionIndex, { passive: true });
+  updateAutoSectionIndex();
+  resetInactivity();
+
+  const userActivityEvents = ["mousemove", "mousedown", "wheel", "touchstart", "keydown", "click"];
+  userActivityEvents.forEach((eventName) => {
+    window.addEventListener(eventName, resetInactivity, { passive: true });
+  });
+
+  document.querySelectorAll(".nav-link").forEach((link) => {
+    link.addEventListener("click", resetInactivity);
+  });
+
   /* ---------- Lightbox (enlarge on click) ---------- */
   const lightbox = document.getElementById("lightbox");
   const lightboxContent = document.getElementById("lightbox-content");
