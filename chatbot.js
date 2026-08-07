@@ -22,12 +22,12 @@
     competitionDate: "31 October 2026",
     pages: ["Home", "Car Design", "Team", "Sponsors", "Contact"],
     members: [
-      { name: "Aarav", role: "Team Manager", desc: "Coordinates activities and keeps the team organized." },
-      { name: "Vivaan", role: "Design Engineer", desc: "Creates innovative and aerodynamic car concepts." },
-      { name: "Arjun", role: "Manufacturing Engineer", desc: "Supports construction and testing of the car." },
-      { name: "Advik", role: "Graphics Designer", desc: "Develops team branding and presentations." },
-      { name: "Reyansh", role: "Sponsorship Manager", desc: "Builds partnerships and sponsor relationships." },
-      { name: "Kabir", role: "Marketing Manager", desc: "Promotes the team and manages communications." },
+      { name: "Ryan Hirekerur", role: "Team Manager", desc: "Coordinates activities and keeps the team organized." },
+      { name: "Darsh Askand", role: "Design Engineer", desc: "Creates innovative and aerodynamic car concepts." },
+      { name: "Rayansh Singh", role: "Manufacturing Engineer", desc: "Supports construction and testing of the car." },
+      { name: "Sukrit Nigam", role: "Graphics Designer", desc: "Develops team branding and presentations." },
+      { name: "Pranav Deokar", role: "Sponsorship Manager", desc: "Builds partnerships and sponsor relationships." },
+      { name: "Varad Kodre", role: "Marketing Manager", desc: "Promotes the team and manages communications." },
     ],
   };
 

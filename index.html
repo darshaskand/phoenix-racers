@@ -20,7 +20,7 @@
   <header>
     <nav class="navbar" aria-label="Main navigation">
       <a href="#home" class="brand" aria-label="Phoenix Racers home">
-        <span class="brand-icon" aria-hidden="true">🔥</span>
+        <img src="logo.png" alt="Phoenix Racers logo" class="brand-logo" />
         <span class="brand-text">PHOENIX<span class="brand-accent">RACERS</span></span>
       </a>
 
@@ -193,7 +193,7 @@
           <article class="team-card" tabindex="0">
             <div class="card-inner">
               <div class="card-front">
-                <div class="avatar" data-initial="A" aria-hidden="true"></div>
+                <div class="avatar"><img src="team/ryan.jpg" alt="Ryan Hirekerur"></div>
                 <h3>Ryan Hirekerur</h3>
                 <p class="role">Team Manager</p>
               </div>
@@ -206,7 +206,7 @@
           <article class="team-card" tabindex="0">
             <div class="card-inner">
               <div class="card-front">
-                <div class="avatar" data-initial="V" aria-hidden="true"></div>
+                <div class="avatar"><img src="team/darsh.jpg" alt="Darsh Askand"></div>
                 <h3>Darsh Askand</h3>
                 <p class="role">Design Engineer</p>
               </div>
@@ -219,7 +219,7 @@
           <article class="team-card" tabindex="0">
             <div class="card-inner">
               <div class="card-front">
-                <div class="avatar" data-initial="A" aria-hidden="true"></div>
+                <div class="avatar"><img src="team/rayansh.jpg" alt="Rayansh Singh"></div>
                 <h3>Rayansh Singh</h3>
                 <p class="role">Manufacturing Engineer</p>
               </div>
@@ -232,7 +232,7 @@
           <article class="team-card" tabindex="0">
             <div class="card-inner">
               <div class="card-front">
-                <div class="avatar" data-initial="A" aria-hidden="true"></div>
+                <div class="avatar"><img src="team/sukrit.jpg" alt="Sukrit Nigam"></div>
                 <h3>Sukrit Nigam</h3>
                 <p class="role">Graphics Designer</p>
               </div>
@@ -245,7 +245,7 @@
           <article class="team-card" tabindex="0">
             <div class="card-inner">
               <div class="card-front">
-                <div class="avatar" data-initial="R" aria-hidden="true"></div>
+                <div class="avatar"><img src="team/pranav.jpg" alt="Pranav Deokar"></div>
                 <h3>Pranav Deokar</h3>
                 <p class="role">Sponsorship Manager</p>
               </div>
@@ -258,7 +258,7 @@
           <article class="team-card" tabindex="0">
             <div class="card-inner">
               <div class="card-front">
-                <div class="avatar" data-initial="K" aria-hidden="true"></div>
+                <div class="avatar"><img src="team/varad.jpg" alt="Varad Kodre"></div>
                 <h3>Varad Kodre</h3>
                 <p class="role">Marketing Manager</p>
               </div>
@@ -280,36 +280,43 @@
           innovators, engineers, and leaders.
         </p>
 
-        <div class="sponsor-tier gold">
-          <h3 class="tier-title">🥇 Gold Sponsors</h3>
-          <div class="sponsor-logos">
-            <div class="sponsor-logo">Your Logo</div>
-            <div class="sponsor-logo">Your Logo</div>
+        <div class="sponsor-grid">
+          <div class="sponsor-left">
+            <div class="sponsor-jersey">
+              <img src="jersey.png" alt="Phoenix Racers team jersey" />
+              <p>Our team jersey represents the Phoenix Racers colours and spirit.</p>
+            </div>
           </div>
-        </div>
 
-        <div class="sponsor-tier silver">
-          <h3 class="tier-title">🥈 Silver Sponsors</h3>
-          <div class="sponsor-logos">
-            <div class="sponsor-logo">Your Logo</div>
-            <div class="sponsor-logo">Your Logo</div>
-            <div class="sponsor-logo">Your Logo</div>
-          </div>
-        </div>
+          <div class="sponsor-right">
+            <div class="sponsor-tier gold">
+              <h3 class="tier-title">🥇 Gold Sponsor</h3>
+              <div class="sponsor-logos">
+                <div class="sponsor-logo">Your Logo</div>
+              </div>
+            </div>
 
-        <div class="sponsor-tier bronze">
-          <h3 class="tier-title">🥉 Bronze Sponsors</h3>
-          <div class="sponsor-logos">
-            <div class="sponsor-logo">Your Logo</div>
-            <div class="sponsor-logo">Your Logo</div>
-            <div class="sponsor-logo">Your Logo</div>
-            <div class="sponsor-logo">Your Logo</div>
+            <div class="sponsor-tier silver">
+              <h3 class="tier-title">🥈 Silver Sponsors</h3>
+              <div class="sponsor-logos">
+                <div class="sponsor-logo">Your Logo</div>
+                <div class="sponsor-logo">Your Logo</div>
+              </div>
+            </div>
+
+            <div class="sponsor-tier bronze">
+              <h3 class="tier-title">🥉 Bronze Sponsors</h3>
+              <div class="sponsor-logos">
+                <div class="sponsor-logo">Your Logo</div>
+                <div class="sponsor-logo">Your Logo</div>
+              </div>
+            </div>
           </div>
         </div>
 
         <div class="sponsor-contact">
           <a href="mailto:phoenixracers@example.com" class="btn btn-primary">Become a Sponsor</a>
-          <p class="contact-email">📧 darshaskand@gmail.com</p>
+          <p class="contact-email">📧 contact@phoenixracers.com</p>
           <div class="social-icons" aria-label="Social media links">
             <!--<a href="#" class="social" aria-label="Instagram">📷</a>
             <a href="#" class="social" aria-label="X (Twitter)">✖️</a>-->
@@ -423,18 +430,17 @@
   <footer class="footer">
     <div class="footer-inner">
       <div class="footer-brand">
-        <span class="brand-icon" aria-hidden="true">🔥</span>
-        <span class="brand-text">PHOENIX<span class="brand-accent">RACERS</span></span>
-        <p class="footer-tagline">Built with passion for Formula 1 in Schools</p>
+        <a href="#home" class="brand" aria-label="Phoenix Racers home">
+          <img src="logo.png" alt="Phoenix Racers logo" class="brand-logo" />
+          <span class="brand-text">PHOENIX<span class="brand-accent">RACERS</span></span>
+        </a>
+       <p class="footer-tagline">Built with passion for Formula 1 in Schools</p>
       </div>
 
       <nav class="footer-links" aria-label="Quick links">
         <h4>Quick Links</h4>
         <a href="#home">Home</a>
-        <a href="#car-design">Car Design</a>
         <a href="#team">Team</a>
-        <a href="#sponsors">Sponsors</a>
-        <a href="#contact">Contact</a>
       </nav>
 
       <div class="footer-social">
