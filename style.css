@@ -694,10 +694,20 @@ section { padding: 5rem 5vw; }
 }
 .sponsor-grid {
   display: grid;
-  grid-template-columns: 1.1fr 1.5fr;
+  /* constrain and center the sponsors area so logos sit in the middle */
+  grid-template-columns: 1fr; /* single column by default */
   gap: 2.5rem;
   align-items: start;
-  margin-bottom: 2rem;
+  margin: 0 auto 2rem;
+  max-width: 1100px;
+}
+
+@media (min-width: 920px) {
+  .sponsor-grid {
+    grid-template-columns: 1fr 1fr; /* spread into two columns on wide screens */
+    /* nudge the whole sponsors block slightly to the right for a right-center alignment */
+    transform: translateX(6%);
+  }
 }
 .sponsor-left,
 .sponsor-right {
@@ -705,6 +715,32 @@ section { padding: 5rem 5vw; }
   flex-direction: column;
   gap: 1.5rem;
 }
+
+/* center sponsor content (logos) in the middle of the sponsors section */
+.sponsor-right {
+  align-items: center;
+}
+
+/* Center the sponsors section vertically in the viewport */
+.sponsors .section-inner {
+  min-height: calc(100vh - var(--nav-h));
+  display: flex;
+  flex-direction: column;
+  /* space-between so the sponsor-contact can sit at the bottom */
+  justify-content: space-between;
+  gap: 1.25rem;
+}
+
+@media (max-width: 820px) {
+  .sponsors .section-inner {
+    min-height: auto;
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+  }
+}
+
+/* center the contact block horizontally when it's pinned to bottom */
+.sponsor-contact { align-self: center; }
 .sponsor-jersey {
   display: flex;
   flex-direction: column;
@@ -720,6 +756,29 @@ section { padding: 5rem 5vw; }
   border-radius: 20px;
   border: 1px solid rgba(255,255,255,0.12);
   box-shadow: var(--shadow);
+}
+
+/* ---------- Jersey section (responsive image sizing) ---------- */
+.jersey-grid {
+  display: flex;
+  gap: 1.6rem;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.jersey-image img,
+.sponsor-jersey img {
+  width: auto;
+  max-width: 320px;
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  display: block;
+}
+@media (max-width: 720px) {
+  .jersey-image img,
+  .sponsor-jersey img {
+    max-width: 220px;
+  }
 }
 .sponsor-jersey p {
   color: #e5e5e8;
@@ -747,6 +806,15 @@ section { padding: 5rem 5vw; }
   flex-wrap: wrap;
   justify-content: center;
   gap: 1.2rem;
+}
+.sponsor-tier {
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 .sponsor-logo {
   width: 160px;

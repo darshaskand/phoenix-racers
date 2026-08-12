@@ -317,7 +317,8 @@
     height: calc(100vh - 100px);
     height: calc(100dvh - 100px);
   }
-  .pr-chat-toggle { bottom: 16px; right: 16px; }
+  /* ensure the toggle sits above other fixed elements on small screens */
+  .pr-chat-toggle { bottom: 92px; right: 16px; z-index: 9999; }
 }
 
 /* ---------- Short / landscape viewports ---------- */
