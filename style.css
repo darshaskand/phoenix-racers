@@ -553,14 +553,18 @@ section { padding: 5rem 5vw; }
 }
 .slide figcaption {
   position: absolute;
-  bottom: 0;
+  top: 0;
+  left: 0;
   width: 100%;
   padding: 0.9rem;
-  background: linear-gradient(transparent, rgba(0,0,0,0.85));
+  z-index: 2;
+  background: linear-gradient(rgba(0,0,0,0.8), transparent);
+  color: var(--white);
   font-family: var(--font-display);
   text-transform: uppercase;
   letter-spacing: 2px;
   text-align: center;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.8);
 }
 .carousel-btn {
   position: absolute;
@@ -686,29 +690,18 @@ section { padding: 5rem 5vw; }
 /* ---------- Sponsors ---------- */
 .sponsor-message {
   max-width: 700px;
-  margin: 0 auto 3rem;
+  margin: 0 auto 0.75rem;
   text-align: center;
   font-size: 1.25rem;
   color: #d7d7db;
   font-style: italic;
 }
 .sponsor-grid {
-  display: grid;
-  /* constrain and center the sponsors area so logos sit in the middle */
-  grid-template-columns: 1fr; /* single column by default */
-  gap: 2.5rem;
-  align-items: start;
-  margin: 0 auto 2rem;
-  max-width: 1100px;
+  display: block;
+  margin: 0 auto 0.5rem;
+  max-width: 1200px;
 }
 
-@media (min-width: 920px) {
-  .sponsor-grid {
-    grid-template-columns: 1fr 1fr; /* spread into two columns on wide screens */
-    /* nudge the whole sponsors block slightly to the right for a right-center alignment */
-    transform: translateX(6%);
-  }
-}
 .sponsor-left,
 .sponsor-right {
   display: flex;
@@ -719,28 +712,46 @@ section { padding: 5rem 5vw; }
 /* center sponsor content (logos) in the middle of the sponsors section */
 .sponsor-right {
   align-items: center;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .sponsor-right {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
+    gap: 2rem;
+  }
+
+  .sponsor-tier {
+    max-width: none;
+    width: 100%;
+  }
 }
 
 /* Center the sponsors section vertically in the viewport */
 .sponsors .section-inner {
-  min-height: calc(100vh - var(--nav-h));
+  min-height: auto;
   display: flex;
   flex-direction: column;
-  /* space-between so the sponsor-contact can sit at the bottom */
-  justify-content: space-between;
-  gap: 1.25rem;
+  justify-content: flex-start;
+  gap: 0.75rem;
 }
 
 @media (max-width: 820px) {
   .sponsors .section-inner {
     min-height: auto;
-    padding-top: 3.5rem;
-    padding-bottom: 3.5rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
   }
 }
 
 /* center the contact block horizontally when it's pinned to bottom */
-.sponsor-contact { align-self: center; }
+.sponsor-contact {
+  align-self: center;
+  margin-top: 0;
+  margin-bottom: 0.25rem;
+}
 .sponsor-jersey {
   display: flex;
   flex-direction: column;
@@ -788,6 +799,8 @@ section { padding: 5rem 5vw; }
 }
 .sponsor-tier {
   margin-bottom: 1.8rem;
+  border: none;
+  box-shadow: none;
 }
 .sponsor-tier:last-child {
   margin-bottom: 0;
@@ -836,7 +849,13 @@ section { padding: 5rem 5vw; }
   border-color: var(--orange);
   box-shadow: var(--shadow);
 }
-.sponsor-contact { text-align: center; margin-top: 3rem; }
+.sponsor-contact {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 0.25rem;
+  border: none;
+  box-shadow: none;
+}
 .contact-email { margin: 1rem 0; color: var(--silver); font-size: 1.1rem; }
 .social-icons { display: flex; gap: 1rem; justify-content: center; }
 .social {
