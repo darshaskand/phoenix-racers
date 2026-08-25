@@ -4,6 +4,74 @@
    ===================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
+  /* ---------- Automatic page reading ---------- */
+  const speech = window.speechSynthesis;
+  const speechSupported = "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;
+  let speechRunId = 0;
+
+  const extractVisibleText = (target) => {
+    const source = typeof target === "string" ? document.querySelector(target) : target;
+    if (!source) return "";
+
+    const copy = source.cloneNode(true);
+    copy.querySelectorAll("script, style, nav, footer, [hidden], .card-back").forEach((element) => {
+      element.remove();
+    });
+    copy.querySelectorAll("[data-speech]").forEach((element) => {
+      element.textContent = element.dataset.speech;
+    });
+    return copy.innerText.replace(/\s+/g, " ").trim();
+  };
+
+  const speakText = (text) => {
+    if (!speechSupported || !text) return;
+    const currentRunId = ++speechRunId;
+    speech.cancel();
+    const voices = speech.getVoices();
+    if (!voices.length) {
+      speech.addEventListener("voiceschanged", () => {
+        if (currentRunId === speechRunId) speakText(text);
+      }, { once: true });
+      return;
+    }
+    const indianVoices = voices.filter((voice) => /en[-_]IN/i.test(voice.lang));
+    const rishiVoice = voices.find((voice) => /rishi/i.test(voice.name));
+    const youngerIndianVoice = indianVoices.find((voice) => /boy|child|male|ravi|rishi|heera/i.test(voice.name));
+    const voice = rishiVoice || youngerIndianVoice || indianVoices[0] || voices.find((voice) => /boy|child|male|ravi|rishi|heera/i.test(voice.name)) || voices.find((voice) => /^en[-_]/i.test(voice.lang)) || null;
+    const sentences = text.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [text];
+    let sentenceIndex = 0;
+
+    const speakNextSentence = () => {
+      if (sentenceIndex >= sentences.length) return;
+      const utterance = new SpeechSynthesisUtterance(sentences[sentenceIndex++].trim());
+      utterance.voice = voice;
+      utterance.lang = voice?.lang || "en-IN";
+      utterance.rate = 0.68;
+      utterance.pitch = 1.3;
+      utterance.volume = 0.9;
+      utterance.onend = () => {
+        if (currentRunId === speechRunId) setTimeout(speakNextSentence, 650);
+      };
+      speech.speak(utterance);
+    };
+
+    speakNextSentence();
+  };
+
+  const readPageAloud = (target = document.body) => {
+    speakText(extractVisibleText(target));
+  };
+
+  const readCurrentSection = () => {
+    const sectionId = window.location.hash.slice(1);
+    const target = sectionId ? document.getElementById(sectionId) : document.querySelector(".hero");
+    readPageAloud(target || document.body);
+  };
+
+  window.readPageAloud = readPageAloud;
+  window.addEventListener("hashchange", () => setTimeout(readCurrentSection, 250));
+  readCurrentSection();
+
   /* ---------- Current year in footer ---------- */
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
@@ -125,6 +193,59 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  /* ---------- F1 pass-by sound ---------- */
+  const raceCar = document.querySelector(".race-car");
+  let audioContext;
+  let carSoundStarted = false;
+
+  const playCarSound = () => {
+    audioContext ||= new AudioContext();
+    if (audioContext.state === "suspended") audioContext.resume();
+
+    const now = audioContext.currentTime;
+    const oscillator = audioContext.createOscillator();
+    const harmonics = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+    const filter = audioContext.createBiquadFilter();
+
+    oscillator.type = "sawtooth";
+    harmonics.type = "square";
+    oscillator.frequency.setValueAtTime(95, now);
+    oscillator.frequency.exponentialRampToValueAtTime(620, now + 1.7);
+    oscillator.frequency.exponentialRampToValueAtTime(180, now + 3.8);
+    harmonics.frequency.setValueAtTime(190, now);
+    harmonics.frequency.exponentialRampToValueAtTime(1240, now + 1.7);
+    harmonics.frequency.exponentialRampToValueAtTime(360, now + 3.8);
+    filter.type = "lowpass";
+    filter.frequency.setValueAtTime(900, now);
+    filter.frequency.exponentialRampToValueAtTime(4200, now + 1.7);
+    filter.frequency.exponentialRampToValueAtTime(700, now + 3.8);
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.linearRampToValueAtTime(0.16, now + 0.35);
+    gain.gain.setValueAtTime(0.16, now + 2.1);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 3.9);
+
+    oscillator.connect(filter);
+    harmonics.connect(filter);
+    filter.connect(gain);
+    gain.connect(audioContext.destination);
+    oscillator.start(now);
+    harmonics.start(now);
+    oscillator.stop(now + 4);
+    harmonics.stop(now + 4);
+  };
+
+  const startCarSound = () => {
+    if (carSoundStarted) return;
+    carSoundStarted = true;
+    playCarSound();
+  };
+
+  if (raceCar) {
+    raceCar.addEventListener("animationstart", startCarSound);
+    setTimeout(startCarSound, 300);
+  }
+
   /* ---------- Animated stat counters ---------- */
   const statNumbers = document.querySelectorAll(".stat-number[data-count]");
   const animateCount = (el) => {
@@ -217,122 +338,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const carousel = document.querySelector(".carousel");
   carousel.addEventListener("mouseenter", () => clearInterval(autoTimer));
   carousel.addEventListener("mouseleave", startAuto);
-
-  /* ---------- Auto page section scrolling ---------- */
-  const autoSections = Array.from(document.querySelectorAll("main section"));
-  const pageFooter = document.querySelector("footer");
-  if (pageFooter) autoSections.push(pageFooter);
-  const teamSection = document.getElementById("team");
-  const sponsorSection = document.getElementById("sponsors");
-  const countdownSection = document.getElementById("countdown");
-
-  const autoplayStatus = document.createElement("div");
-  autoplayStatus.id = "autoplay-status";
-  autoplayStatus.className = "autoplay-status";
-  autoplayStatus.textContent = "Auto-play paused";
-  document.body.appendChild(autoplayStatus);
-  let autoplayVisibleTimer;
-
-  const showAutoplayStatus = (message) => {
-    autoplayStatus.textContent = message;
-    autoplayStatus.classList.add("visible");
-    clearTimeout(autoplayVisibleTimer);
-    autoplayVisibleTimer = setTimeout(() => {
-      autoplayStatus.classList.remove("visible");
-    }, 3000);
-  };
-
-  let autoSectionIndex = 0;
-  let autoScrollTimer;
-  let inactivityTimer;
-  let teamPreviewTimeout;
-  let sponsorPreviewTimeout;
-  let nextSectionTimeout;
-  const inactivityDelay = 10000;
-
-  const clearAutoTimers = () => {
-    clearTimeout(autoScrollTimer);
-    clearTimeout(inactivityTimer);
-    clearTimeout(teamPreviewTimeout);
-    clearTimeout(sponsorPreviewTimeout);
-    clearTimeout(nextSectionTimeout);
-  };
-
-  const updateAutoSectionIndex = () => {
-    const scrollMiddle = window.scrollY + window.innerHeight / 2;
-    autoSections.forEach((el, idx) => {
-      const top = el.offsetTop;
-      const bottom = top + el.offsetHeight;
-      if (scrollMiddle >= top && scrollMiddle < bottom) {
-        autoSectionIndex = idx;
-      }
-    });
-  };
-
-  const scheduleNextSection = (delay = 10000) => {
-    clearTimeout(autoScrollTimer);
-    autoScrollTimer = setTimeout(autoScrollSection, delay);
-  };
-
-  const scrollToSection = (index) => {
-    clearTimeout(autoScrollTimer);
-    clearTimeout(teamPreviewTimeout);
-    clearTimeout(sponsorPreviewTimeout);
-    clearTimeout(nextSectionTimeout);
-
-    const target = autoSections[index];
-    if (!target) return;
-    autoSectionIndex = index;
-    target.scrollIntoView({ behavior: "smooth" });
-
-    if (target === teamSection) {
-      teamPreviewTimeout = setTimeout(() => {
-        const previewPosition = teamSection.offsetTop + Math.min(teamSection.clientHeight * 0.45, 260);
-        window.scrollTo({ top: previewPosition, behavior: "smooth" });
-        nextSectionTimeout = setTimeout(autoScrollSection, 5000);
-      }, 5000);
-    } else if (target === sponsorSection) {
-      sponsorPreviewTimeout = setTimeout(() => {
-        const previewPosition = sponsorSection.offsetTop + Math.min(sponsorSection.clientHeight * 0.35, 260);
-        window.scrollTo({ top: previewPosition, behavior: "smooth" });
-        nextSectionTimeout = setTimeout(autoScrollSection, 5000);
-      }, 5000);
-    } else if (target === countdownSection) {
-      scheduleNextSection(5000);
-    } else {
-      scheduleNextSection(10000);
-    }
-  };
-
-  const autoScrollSection = () => {
-    autoSectionIndex = (autoSectionIndex + 1) % autoSections.length;
-    scrollToSection(autoSectionIndex);
-  };
-
-  const startAutoScroll = () => {
-    clearTimeout(inactivityTimer);
-    showAutoplayStatus("Auto-play started");
-    autoScrollSection();
-  };
-
-  const resetInactivity = () => {
-    clearAutoTimers();
-    showAutoplayStatus("Auto-play paused");
-    inactivityTimer = setTimeout(startAutoScroll, inactivityDelay);
-  };
-
-  window.addEventListener("scroll", updateAutoSectionIndex, { passive: true });
-  updateAutoSectionIndex();
-  resetInactivity();
-
-  const userActivityEvents = ["mousemove", "mousedown", "wheel", "touchstart", "keydown", "click"];
-  userActivityEvents.forEach((eventName) => {
-    window.addEventListener(eventName, resetInactivity, { passive: true });
-  });
-
-  document.querySelectorAll(".nav-link").forEach((link) => {
-    link.addEventListener("click", resetInactivity);
-  });
 
   /* ---------- Lightbox (enlarge on click) ---------- */
   const lightbox = document.getElementById("lightbox");

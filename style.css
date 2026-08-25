@@ -953,27 +953,6 @@ section { padding: 5rem 5vw; }
 .form-submit.loading .btn-spinner { display: inline-block; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-.form-status {
-  font-weight: 600;
-  padding: 0.6rem 0;
-}
-.form-status-error { color: #ff6b73; }
-
-/* Success confirmation */
-.form-success {
-  text-align: center;
-  padding: 1rem;
-  animation: fadeUp 0.5s ease both;
-}
-.form-success h3 { color: var(--orange); margin: 1rem 0 0.5rem; }
-.form-success p { color: var(--silver); margin-bottom: 1.5rem; }
-.success-check { width: 90px; height: 90px; }
-.check-circle {
-  stroke: var(--orange);
-  stroke-width: 3;
-  stroke-dasharray: 151;
-  stroke-dashoffset: 151;
-  animation: drawCircle 0.6s ease forwards;
 }
 .check-mark {
   stroke: var(--orange);
@@ -1118,29 +1097,6 @@ section { padding: 5rem 5vw; }
 }
 .scroll-top.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
 .scroll-top:hover { transform: translateY(-4px) scale(1.1); }
-
-.autoplay-status {
-  position: fixed;
-  bottom: 90px;
-  right: 24px;
-  z-index: 950;
-  padding: 0.85rem 1rem;
-  border-radius: 999px;
-  background: rgba(10, 10, 10, 0.95);
-  color: #fff;
-  border: 1px solid rgba(255,255,255,0.12);
-  box-shadow: 0 15px 30px rgba(0,0,0,0.35);
-  font-family: var(--font-body);
-  font-size: 0.95rem;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  pointer-events: none;
-}
-.autoplay-status.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
 
 /* ---------- Scroll Reveal ---------- */
 .reveal {
