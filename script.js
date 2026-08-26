@@ -14,13 +14,20 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!source) return "";
 
     const copy = source.cloneNode(true);
-    copy.querySelectorAll("script, style, nav, footer, [hidden], .card-back").forEach((element) => {
+    copy.querySelectorAll("script, style, nav, footer, [hidden], .card-back, .slide:not(.active)").forEach((element) => {
       element.remove();
     });
     copy.querySelectorAll("[data-speech]").forEach((element) => {
       element.textContent = element.dataset.speech;
     });
-    return copy.innerText.replace(/\s+/g, " ").trim();
+    const spokenText = copy.innerText
+      .split(/\n+/)
+      .map((line) => line.replace(/\s+/g, " ").trim())
+      .filter(Boolean)
+      .join(". ");
+    return source.id === "team"
+      ? spokenText.replace("Six minds. One mission. Full throttle.", "Six minds One mission Full throttle")
+      : spokenText;
   };
 
   const speakText = (text) => {
@@ -46,11 +53,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const utterance = new SpeechSynthesisUtterance(sentences[sentenceIndex++].trim());
       utterance.voice = voice;
       utterance.lang = voice?.lang || "en-IN";
-      utterance.rate = 0.68;
-      utterance.pitch = 1.3;
-      utterance.volume = 0.9;
+      utterance.rate = 0.78;
+      utterance.pitch = 1.08;
+      utterance.volume = 1;
       utterance.onend = () => {
-        if (currentRunId === speechRunId) setTimeout(speakNextSentence, 650);
+        if (currentRunId === speechRunId) setTimeout(speakNextSentence, 150);
       };
       speech.speak(utterance);
     };
@@ -62,8 +69,16 @@ document.addEventListener("DOMContentLoaded", () => {
     speakText(extractVisibleText(target));
   };
 
+  const autoReadSections = new Set(["home", "car-design", "team"]);
   const readCurrentSection = () => {
     const sectionId = window.location.hash.slice(1);
+    if (sectionId && !autoReadSections.has(sectionId)) {
+      if (speechSupported) {
+        speechRunId += 1;
+        speech.cancel();
+      }
+      return;
+    }
     const target = sectionId ? document.getElementById(sectionId) : document.querySelector(".hero");
     readPageAloud(target || document.body);
   };
@@ -288,56 +303,61 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
 
   /* ---------- Car Design Carousel ---------- */
-  const track = document.getElementById("carousel-track");
-  const slides = Array.from(track.children);
-  const prevBtn = document.getElementById("prev-btn");
-  const nextBtn = document.getElementById("next-btn");
-  const dotsContainer = document.getElementById("carousel-dots");
-  let currentIndex = 0;
-  let autoTimer;
+  const initializeCarousel = (trackId, prevId, nextId, dotsId) => {
+    const track = document.getElementById(trackId);
+    const slides = Array.from(track.children);
+    const prevBtn = document.getElementById(prevId);
+    const nextBtn = document.getElementById(nextId);
+    const dotsContainer = document.getElementById(dotsId);
+    const carousel = track.closest(".carousel");
+    let currentIndex = 0;
+    let autoTimer;
 
-  // Build dots
-  slides.forEach((_, i) => {
-    const dot = document.createElement("button");
-    dot.className = "dot" + (i === 0 ? " active" : "");
-    dot.setAttribute("role", "tab");
-    dot.setAttribute("aria-label", `Go to slide ${i + 1}`);
-    dot.addEventListener("click", () => goToSlide(i));
-    dotsContainer.appendChild(dot);
-  });
-  const dots = Array.from(dotsContainer.children);
+    slides.forEach((_, i) => {
+      slides[i].classList.toggle("active", i === 0);
+      const dot = document.createElement("button");
+      dot.className = "dot" + (i === 0 ? " active" : "");
+      dot.setAttribute("role", "tab");
+      dot.setAttribute("aria-label", `Go to slide ${i + 1}`);
+      dot.addEventListener("click", () => goToSlide(i));
+      dotsContainer.appendChild(dot);
+    });
+    const dots = Array.from(dotsContainer.children);
 
-  const goToSlide = (index) => {
-    currentIndex = (index + slides.length) % slides.length;
-    track.style.transform = `translateX(-${currentIndex * 100}%)`;
-    dots.forEach((d, i) => d.classList.toggle("active", i === currentIndex));
-  };
+    const goToSlide = (index) => {
+      currentIndex = (index + slides.length) % slides.length;
+      track.style.transform = `translateX(-${currentIndex * 100}%)`;
+      slides.forEach((slide, i) => slide.classList.toggle("active", i === currentIndex));
+      dots.forEach((d, i) => d.classList.toggle("active", i === currentIndex));
+      if (track.id === "carousel-track" && window.location.hash === "#car-design") {
+        readPageAloud(slides[currentIndex]);
+      }
+    };
 
-  const nextSlide = () => goToSlide(currentIndex + 1);
-  const prevSlide = () => goToSlide(currentIndex - 1);
+    const nextSlide = () => goToSlide(currentIndex + 1);
+    const prevSlide = () => goToSlide(currentIndex - 1);
+    const startAuto = () => {
+      autoTimer = setInterval(nextSlide, 2500);
+    };
+    const resetAuto = () => {
+      clearInterval(autoTimer);
+      startAuto();
+    };
 
-  nextBtn.addEventListener("click", () => {
-    nextSlide();
-    resetAuto();
-  });
-  prevBtn.addEventListener("click", () => {
-    prevSlide();
-    resetAuto();
-  });
-
-  const startAuto = () => {
-    autoTimer = setInterval(nextSlide, 3000);
-  };
-  const resetAuto = () => {
-    clearInterval(autoTimer);
+    nextBtn.addEventListener("click", () => {
+      nextSlide();
+      resetAuto();
+    });
+    prevBtn.addEventListener("click", () => {
+      prevSlide();
+      resetAuto();
+    });
     startAuto();
+    carousel.addEventListener("mouseenter", () => clearInterval(autoTimer));
+    carousel.addEventListener("mouseleave", startAuto);
   };
-  startAuto();
 
-  // Pause auto-scroll on hover
-  const carousel = document.querySelector(".carousel");
-  carousel.addEventListener("mouseenter", () => clearInterval(autoTimer));
-  carousel.addEventListener("mouseleave", startAuto);
+  initializeCarousel("carousel-track", "prev-btn", "next-btn", "carousel-dots");
 
   /* ---------- Lightbox (enlarge on click) ---------- */
   const lightbox = document.getElementById("lightbox");
