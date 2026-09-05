@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
       : spokenText;
   };
 
-  const speakText = (text) => {
+  const speakText = (text, splitSentences = true) => {
     if (!speechSupported || !text) return;
     const currentRunId = ++speechRunId;
     speech.cancel();
@@ -45,7 +45,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const rishiVoice = voices.find((voice) => /rishi/i.test(voice.name));
     const youngerIndianVoice = indianVoices.find((voice) => /boy|child|male|ravi|rishi|heera/i.test(voice.name));
     const voice = rishiVoice || youngerIndianVoice || indianVoices[0] || voices.find((voice) => /boy|child|male|ravi|rishi|heera/i.test(voice.name)) || voices.find((voice) => /^en[-_]/i.test(voice.lang)) || null;
-    const sentences = text.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [text];
+    const sentences = splitSentences
+      ? text.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [text]
+      : [text];
     let sentenceIndex = 0;
 
     const speakNextSentence = () => {
@@ -66,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const readPageAloud = (target = document.body) => {
-    speakText(extractVisibleText(target));
+    speakText(extractVisibleText(target), !target?.classList.contains("hero"));
   };
 
   const autoReadSections = new Set(["home", "car-design", "team"]);
