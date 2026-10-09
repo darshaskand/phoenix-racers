@@ -144,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ---------- Countdown Timer ---------- */
-  const targetDate = new Date("2026-10-31T09:00:00").getTime();
+  const targetDate = new Date("2026-11-18T09:00:00").getTime();
   const daysEl = document.getElementById("days");
   const hoursEl = document.getElementById("hours");
   const minutesEl = document.getElementById("minutes");

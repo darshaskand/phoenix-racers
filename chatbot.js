@@ -19,7 +19,7 @@
     teamName: "Phoenix Racers",
     mission:
       "Our team combines creativity, engineering, teamwork and innovation to compete in STEM Racing.",
-    competitionDate: "31 October 2026",
+    competitionDate: "18 November 2026",
     pages: ["Home", "Car Design", "Team", "Sponsors", "Contact"],
     members: [
       { name: "Ryan Hirekerur", role: "Team Manager", desc: "Coordinates activities and keeps the team organized." },
@@ -142,6 +142,12 @@
       answer:
         "We have Gold, Silver, and Bronze sponsor tiers. Partner with us to support the next generation of innovators! Scrolling to the Sponsors section. 🤝",
       suggestions: ["How can I sponsor you?", "Contact the team"],
+    },
+    {
+      id: "social-media",
+      keywords: ["social media", "socials", "what are your socials", "social media accounts", "instagram", "insta", "youtube", "ytube", "instagram name", "youtube name", "instagram handle", "youtube handle", "follow us", "handles"],
+      answer:
+        'Follow us on Instagram at <a href="https://instagram.com/phoenix6racers" target="_blank" rel="noopener noreferrer">@phoenix6racers</a> and YouTube at <a href="https://youtube.com/@phoenix_racers" target="_blank" rel="noopener noreferrer">@phoenix_racers</a>.',
     },
     {
       id: "contact",
