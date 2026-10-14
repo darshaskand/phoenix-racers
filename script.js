@@ -390,10 +390,8 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ---------- Contact Form (validation + Formspree) ---------- */
   const contactForm = document.getElementById("contact-form");
   if (contactForm) {
-    const formSuccess = document.getElementById("form-success");
-    const formError = document.getElementById("form-error");
     const submitBtn = document.getElementById("submit-btn");
-    const sendAnother = document.getElementById("send-another");
+    const replyTo = document.getElementById("reply-to");
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -439,10 +437,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    contactForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      formError.hidden = true;
-
+    contactForm.addEventListener("submit", (e) => {
       // Validate all fields
       let firstInvalid = null;
       let allValid = true;
@@ -455,42 +450,14 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       if (!allValid) {
+        e.preventDefault();
         if (firstInvalid) firstInvalid.focus();
         return;
       }
 
+      replyTo.value = contactForm.elements.email.value.trim();
       submitBtn.classList.add("loading");
-
-      try {
-        const response = await fetch(contactForm.action, {
-          method: "POST",
-          body: new FormData(contactForm),
-          headers: { Accept: "application/json" },
-        });
-
-        if (response.ok) {
-          contactForm.hidden = true;
-          formSuccess.hidden = false;
-          formSuccess.setAttribute("tabindex", "-1");
-          formSuccess.focus();
-          contactForm.reset();
-        } else {
-          throw new Error("Submission failed");
-        }
-      } catch (err) {
-        formError.hidden = false;
-      } finally {
-        submitBtn.classList.remove("loading");
-      }
     });
-
-    if (sendAnother) {
-      sendAnother.addEventListener("click", () => {
-        formSuccess.hidden = true;
-        contactForm.hidden = false;
-        contactForm.elements.name.focus();
-      });
-    }
   }
 
   /* ---------- Background speed particles ---------- */
