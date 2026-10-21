@@ -870,6 +870,11 @@ section { padding: 5rem 5vw; }
   font-size: 1.2rem;
   transition: transform 0.25s ease, background 0.25s ease;
 }
+.social img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+}
 .social:hover,
 .social:focus-visible {
   transform: translateY(-4px) scale(1.1);
@@ -997,6 +1002,14 @@ section { padding: 5rem 5vw; }
   margin-bottom: 0.4rem;
 }
 .footer-contact a:hover { color: var(--orange); }
+.instagram-icon {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 0.25rem;
+  object-fit: contain;
+}
 
 /* ---------- Footer ---------- */
 .footer {

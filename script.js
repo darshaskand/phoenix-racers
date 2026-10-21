@@ -4,91 +4,6 @@
    ===================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
-  /* ---------- Automatic page reading ---------- */
-  const speech = window.speechSynthesis;
-  const speechSupported = "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;
-  let speechRunId = 0;
-
-  const extractVisibleText = (target) => {
-    const source = typeof target === "string" ? document.querySelector(target) : target;
-    if (!source) return "";
-
-    const copy = source.cloneNode(true);
-    copy.querySelectorAll("script, style, nav, footer, [hidden], .card-back, .slide:not(.active)").forEach((element) => {
-      element.remove();
-    });
-    copy.querySelectorAll("[data-speech]").forEach((element) => {
-      element.textContent = element.dataset.speech;
-    });
-    const spokenText = copy.innerText
-      .split(/\n+/)
-      .map((line) => line.replace(/\s+/g, " ").trim())
-      .filter(Boolean)
-      .join(". ");
-    return source.id === "team"
-      ? spokenText.replace("Six minds. One mission. Full throttle.", "Six minds One mission Full throttle")
-      : spokenText;
-  };
-
-  const speakText = (text, splitSentences = true) => {
-    if (!speechSupported || !text) return;
-    const currentRunId = ++speechRunId;
-    speech.cancel();
-    const voices = speech.getVoices();
-    if (!voices.length) {
-      speech.addEventListener("voiceschanged", () => {
-        if (currentRunId === speechRunId) speakText(text);
-      }, { once: true });
-      return;
-    }
-    const indianVoices = voices.filter((voice) => /en[-_]IN/i.test(voice.lang));
-    const rishiVoice = voices.find((voice) => /rishi/i.test(voice.name));
-    const youngerIndianVoice = indianVoices.find((voice) => /boy|child|male|ravi|rishi|heera/i.test(voice.name));
-    const voice = rishiVoice || youngerIndianVoice || indianVoices[0] || voices.find((voice) => /boy|child|male|ravi|rishi|heera/i.test(voice.name)) || voices.find((voice) => /^en[-_]/i.test(voice.lang)) || null;
-    const sentences = splitSentences
-      ? text.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [text]
-      : [text];
-    let sentenceIndex = 0;
-
-    const speakNextSentence = () => {
-      if (sentenceIndex >= sentences.length) return;
-      const utterance = new SpeechSynthesisUtterance(sentences[sentenceIndex++].trim());
-      utterance.voice = voice;
-      utterance.lang = voice?.lang || "en-IN";
-      utterance.rate = 0.78;
-      utterance.pitch = 1.08;
-      utterance.volume = 1;
-      utterance.onend = () => {
-        if (currentRunId === speechRunId) setTimeout(speakNextSentence, 150);
-      };
-      speech.speak(utterance);
-    };
-
-    speakNextSentence();
-  };
-
-  const readPageAloud = (target = document.body) => {
-    speakText(extractVisibleText(target), !target?.classList.contains("hero"));
-  };
-
-  const autoReadSections = new Set(["home", "car-design", "team"]);
-  const readCurrentSection = () => {
-    const sectionId = window.location.hash.slice(1);
-    if (sectionId && !autoReadSections.has(sectionId)) {
-      if (speechSupported) {
-        speechRunId += 1;
-        speech.cancel();
-      }
-      return;
-    }
-    const target = sectionId ? document.getElementById(sectionId) : document.querySelector(".hero");
-    readPageAloud(target || document.body);
-  };
-
-  window.readPageAloud = readPageAloud;
-  window.addEventListener("hashchange", () => setTimeout(readCurrentSection, 250));
-  readCurrentSection();
-
   /* ---------- Current year in footer ---------- */
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
@@ -144,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ---------- Countdown Timer ---------- */
-  const targetDate = new Date("2026-11-18T09:00:00").getTime();
+  const targetDate = new Date("2026-11-26T09:00:00").getTime();
   const daysEl = document.getElementById("days");
   const hoursEl = document.getElementById("hours");
   const minutesEl = document.getElementById("minutes");
@@ -208,59 +123,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (text) {
       typeText(introText, text, 20);
     }
-  }
-
-  /* ---------- F1 pass-by sound ---------- */
-  const raceCar = document.querySelector(".race-car");
-  let audioContext;
-  let carSoundStarted = false;
-
-  const playCarSound = () => {
-    audioContext ||= new AudioContext();
-    if (audioContext.state === "suspended") audioContext.resume();
-
-    const now = audioContext.currentTime;
-    const oscillator = audioContext.createOscillator();
-    const harmonics = audioContext.createOscillator();
-    const gain = audioContext.createGain();
-    const filter = audioContext.createBiquadFilter();
-
-    oscillator.type = "sawtooth";
-    harmonics.type = "square";
-    oscillator.frequency.setValueAtTime(95, now);
-    oscillator.frequency.exponentialRampToValueAtTime(620, now + 1.7);
-    oscillator.frequency.exponentialRampToValueAtTime(180, now + 3.8);
-    harmonics.frequency.setValueAtTime(190, now);
-    harmonics.frequency.exponentialRampToValueAtTime(1240, now + 1.7);
-    harmonics.frequency.exponentialRampToValueAtTime(360, now + 3.8);
-    filter.type = "lowpass";
-    filter.frequency.setValueAtTime(900, now);
-    filter.frequency.exponentialRampToValueAtTime(4200, now + 1.7);
-    filter.frequency.exponentialRampToValueAtTime(700, now + 3.8);
-    gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.linearRampToValueAtTime(0.16, now + 0.35);
-    gain.gain.setValueAtTime(0.16, now + 2.1);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 3.9);
-
-    oscillator.connect(filter);
-    harmonics.connect(filter);
-    filter.connect(gain);
-    gain.connect(audioContext.destination);
-    oscillator.start(now);
-    harmonics.start(now);
-    oscillator.stop(now + 4);
-    harmonics.stop(now + 4);
-  };
-
-  const startCarSound = () => {
-    if (carSoundStarted) return;
-    carSoundStarted = true;
-    playCarSound();
-  };
-
-  if (raceCar) {
-    raceCar.addEventListener("animationstart", startCarSound);
-    setTimeout(startCarSound, 300);
   }
 
   /* ---------- Animated stat counters ---------- */
@@ -331,9 +193,6 @@ document.addEventListener("DOMContentLoaded", () => {
       track.style.transform = `translateX(-${currentIndex * 100}%)`;
       slides.forEach((slide, i) => slide.classList.toggle("active", i === currentIndex));
       dots.forEach((d, i) => d.classList.toggle("active", i === currentIndex));
-      if (track.id === "carousel-track" && window.location.hash === "#car-design") {
-        readPageAloud(slides[currentIndex]);
-      }
     };
 
     const nextSlide = () => goToSlide(currentIndex + 1);
@@ -391,7 +250,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const contactForm = document.getElementById("contact-form");
   if (contactForm) {
     const submitBtn = document.getElementById("submit-btn");
-    const replyTo = document.getElementById("reply-to");
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -438,6 +296,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     contactForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
       // Validate all fields
       let firstInvalid = null;
       let allValid = true;
@@ -450,13 +310,24 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       if (!allValid) {
-        e.preventDefault();
         if (firstInvalid) firstInvalid.focus();
         return;
       }
 
-      replyTo.value = contactForm.elements.email.value.trim();
       submitBtn.classList.add("loading");
+
+      const formData = new FormData(contactForm);
+      const body = [
+        `Name: ${formData.get("name")}`,
+        `Email: ${formData.get("email")}`,
+        `School / Organization: ${formData.get("organization")}`,
+        "",
+        String(formData.get("message")),
+      ].join("\n");
+      const emailUrl = new URL("mailto:darshaskand@gmail.com");
+      emailUrl.searchParams.set("subject", String(formData.get("subject")));
+      emailUrl.searchParams.set("body", body);
+      window.location.href = emailUrl.toString();
     });
   }
 
